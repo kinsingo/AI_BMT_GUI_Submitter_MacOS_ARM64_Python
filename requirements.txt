@@ -1,0 +1,6 @@
+numpy>=1.21
+opencv-python>=4.5
+onnxruntime>=1.16
+
+# if you want to use GPU support, uncomment the following line:
+# onnxruntime-gpu>=1.16
