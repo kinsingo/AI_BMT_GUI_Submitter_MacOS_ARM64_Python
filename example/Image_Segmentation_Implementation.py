@@ -16,8 +16,8 @@ class Segmentation_Implementation(bmt.AI_BMT_Interface):
     def getOptionalData(self):
         optional = bmt.Optional_Data()
         optional.cpu_type = ""
-        optional.accelerator_type = ""  
-        optional.submitter = ""         
+        optional.accelerator_type = ""  # e.g., "DeepX M1(NPU)"
+        optional.submitter = ""         # e.g., "DeepX"
         optional.cpu_core_count = ""
         optional.cpu_ram_capacity = ""  # e.g., "32GB"
         optional.cooling = ""           # e.g., "Air"
@@ -84,10 +84,22 @@ class Segmentation_Implementation(bmt.AI_BMT_Interface):
         Do NOT pass multi-dimensional arrays. 
         Use `.flatten()` or `.ravel()` to convert arrays to 1D before assignment.
         """
-        results = []
-        for _, preprocessed_data in enumerate(preprocessed_data_list): 
+        output_tensors = []
+        for _, preprocessed_data in enumerate(preprocessed_data_list):
             outputs = self.session.run([self.output_name], {self.input_name: preprocessed_data})
-            output_tensor = outputs[0]  # shape: (1, 21, 520, 520)
+            output_tensors.append(outputs[0])
+        return output_tensors
+    
+    def dataTransferVision(self, output_tensors):
+        """
+        Convert output tensors to BMTVisionResult format.
+        This function eliminates wrapper overhead by directly converting
+        Python data to C++ compatible format after model inference.
+        Do NOT pass multi-dimensional arrays. 
+        Use `.flatten()` or `.ravel()` to convert arrays to 1D before assignment.
+        """
+        results = []
+        for output_tensor in output_tensors:
             result = bmt.BMTVisionResult()
             result.segmentationResult = output_tensor.flatten()
             results.append(result)

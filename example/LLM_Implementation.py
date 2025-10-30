@@ -66,7 +66,7 @@ class LLM_Implementation(bmt.AI_BMT_Interface):
         return llmData  # VariantType으로 그대로 전달
 
     def inferLLM(self, preprocessed_data_list):
-        results: list[bmt.BMTLLMResult] = []
+        output_tensors = []
         for preprocessed_data in preprocessed_data_list:
             shape = (preprocessed_data.N, preprocessed_data.S)
             feed: dict[str, np.ndarray] = {}
@@ -79,11 +79,22 @@ class LLM_Implementation(bmt.AI_BMT_Interface):
                     feed[nm] = np.asarray(preprocessed_data.token_type_ids, dtype=np.int64).reshape(shape)
                 else:
                     pass
-
-            # Fill the result structure
             outs = self.session.run(self.output_names if self.output_names else None, feed)
+            output_tensors.append(outs[0])
+        return output_tensors
+    
+    def dataTransferLLM(self, output_tensors):
+        """
+        Convert output tensors to BMTLLMResult format.
+        This function eliminates wrapper overhead by directly converting
+        Python data to C++ compatible format after model inference.
+        Do NOT pass multi-dimensional arrays. 
+        Use `.flatten()` or `.ravel()` to convert arrays to 1D before assignment.
+        """
+        results = []
+        for output_tensor in output_tensors:
             r = bmt.BMTLLMResult()
-            r.rawOutputShape = [int(x) for x in outs[0].shape]
-            r.rawOutput = np.asarray(outs[0], dtype=np.float32).ravel().tolist()
+            r.rawOutputShape = [int(x) for x in output_tensor.shape]
+            r.rawOutput = np.asarray(output_tensor, dtype=np.float32).ravel().tolist()
             results.append(r)
         return results

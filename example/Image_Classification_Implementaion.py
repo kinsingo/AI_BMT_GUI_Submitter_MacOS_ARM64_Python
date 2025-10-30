@@ -15,8 +15,8 @@ class Classification_Implementation(bmt.AI_BMT_Interface):
     def getOptionalData(self):
         optional = bmt.Optional_Data()
         optional.cpu_type = ""
-        optional.accelerator_type = ""  
-        optional.submitter = ""         
+        optional.accelerator_type = ""  # e.g., "DeepX M1(NPU)"
+        optional.submitter = ""         # e.g., "DeepX"
         optional.cpu_core_count = ""
         optional.cpu_ram_capacity = ""  # e.g., "32GB"
         optional.cooling = ""           # e.g., "Air"
@@ -57,7 +57,6 @@ class Classification_Implementation(bmt.AI_BMT_Interface):
     def inferVision(self, preprocessed_data_list):
         """
         Perform inference and return a list of BMTResult.
-        
         Expected: A list of BMTResult objects, each containing one of the following:
         - 'classProbabilities': 1D float list or NumPy array (shape = [1000])
         - 'objectDetectionResult': 1D float list or NumPy array, shape depends on YOLO model:
@@ -65,20 +64,29 @@ class Classification_Implementation(bmt.AI_BMT_Interface):
             - YOLOv5u/8/9/11/12: [8400 × 84]
             - YOLOv10:       [300 × 6]
         - 'segmentationResult': 1D float list or NumPy array (shape = [21 × 520 × 520])
-
+        """
+        output_tensors = []
+        for _, preprocessed_data in enumerate(preprocessed_data_list):
+            outputs = self.session.run([self.output_name], {self.input_name: preprocessed_data})
+            output_tensors.append(outputs[0])
+        return output_tensors
+    
+    def dataTransferVision(self, output_tensors):
+        """
+        Convert output tensors to BMTVisionResult format.
+        This function eliminates wrapper overhead by directly converting
+        Python data to C++ compatible format after model inference.
         Do NOT pass multi-dimensional arrays. 
         Use `.flatten()` or `.ravel()` to convert arrays to 1D before assignment.
         """
         results = []
-        for _, preprocessed_data in enumerate(preprocessed_data_list):
-            outputs = self.session.run([self.output_name], {self.input_name: preprocessed_data})
-            output_tensor = outputs[0]  # shape: (1, 1000)
+        for output_tensor in output_tensors:
             result = bmt.BMTVisionResult()
             result.classProbabilities = output_tensor.flatten()
             results.append(result)
         return results
-    
-    
+
+
 class Classification_CustomDataset_Implementation(Classification_Implementation):
     def getInterfaceType(self):
         return bmt.InterfaceType.ImageClassification_CustomDataset
