@@ -1,7 +1,4 @@
-# AI-BMT Platform — Python Submitter Interface (macOS ARM64)
-
-**Last Updated:** 2024-11-20
-
+> **Last Updated:** 2025-11-21 (Version 2.0)
 ---
 
 ## 1. Environment
