@@ -91,9 +91,9 @@ class SubmitterImplementation(bmt.AI_BMT_Interface):
     
     # LLM MMLU tasks: first token generation for TTFT measurement
     # - inferFirstToken: generate only the first token (AI-BMT will measure the time internally)
-    # - Returns void (we only measure TTFT, don't care about the actual first token output)
+    # - Returns None (we only measure TTFT, don't care about the actual first token output)
     # - Only used for MMLU tasks that require TTFT measurement
-    def inferFirstToken(self, preprocessed_data)
+    def inferFirstToken(self, preprocessed_data) -> None:
 ```
 
 ### Optional Interface
