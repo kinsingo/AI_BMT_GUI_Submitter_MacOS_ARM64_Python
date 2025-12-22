@@ -1,4 +1,5 @@
-> **Last Updated:** 2025-11-21 (Version 2.0)
+> **Last Updated:** 2025-12-23 (Version 2.1)
+
 ---
 
 ## 1. Environment
@@ -23,6 +24,31 @@
   ```bash
   pip install "numpy>=1.21" "opencv-python>=4.5" "onnxruntime>=1.16"
   ```
+
+**3. Hugging Face Authentication (for LLM tasks)**
+
+If you're using Hugging Face models (especially gated models like Llama), you need to authenticate:
+
+1. **Get Hugging Face Token:**
+
+   - Visit https://huggingface.co/settings/tokens
+   - Create a new token with "Read" permission
+   - Copy the token
+
+2. **Login via CLI:**
+
+   ```bash
+   python -m huggingface_hub.commands.huggingface_cli login
+   ```
+
+   Enter your token when prompted.
+
+3. **Access Gated Models:**
+   - For gated models (e.g., Llama), visit the model page
+   - Example: https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct
+   - Click "Agree and access repository" to accept terms
+
+**Note:** Without authentication, you'll see `hf_token:None` error when loading gated models.
 
 ## 3. Project Description
 
