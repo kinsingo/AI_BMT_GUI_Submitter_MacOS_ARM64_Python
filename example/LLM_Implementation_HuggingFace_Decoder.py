@@ -34,7 +34,9 @@ class LLM_Implementation_HuggingFace_Decoder(bmt.AI_BMT_Interface):
         # return bmt.InterfaceType.LLM_QWEN_MMLU
         # return bmt.InterfaceType.LLM_Gemma_MMLU #26.6667
         return bmt.InterfaceType.LLM_Llama_MMLU #50 Ok
-        
+
+    def getPowerDeviceType(self):
+        return bmt.PowerDeviceType.None_ #None_, NvidiaGPU, JetsonSoC, AppleSoC        
 
     def initialize(self, model_path: str):
         try:

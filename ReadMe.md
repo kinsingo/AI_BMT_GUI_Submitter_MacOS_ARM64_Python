@@ -1,4 +1,4 @@
-> **Last Updated:** 2026-02-09 (Version 2.2)
+> **Last Updated:** 2026-03-03 (Version 2.3)
 
 ---
 
@@ -30,7 +30,6 @@
 If you're using Hugging Face models (especially gated models like Llama), you need to authenticate:
 
 1. **Get Hugging Face Token:**
-
    - Visit https://huggingface.co/settings/tokens
    - Create a new token with "Read" permission
    - Copy the token
@@ -73,6 +72,9 @@ class SubmitterImplementation(bmt.AI_BMT_Interface):
     # return the implemented interface task type.
     def getInterfaceType(self) -> InterfaceType:
 
+    # Power measurement selection (default: do not measure)
+    def getPowerDeviceType(self) -> PowerDeviceType:
+
     #  Vision tasks: preprocessing & inference
     #  - preprocessVisionData: convert raw image file into model input format
     #  - inferVision: run inference on preprocessed data and return vision model outputs
@@ -88,7 +90,7 @@ class SubmitterImplementation(bmt.AI_BMT_Interface):
     def preprocessLLMData(self, llmData: LLMPreprocessedInput) -> VariantType:
     def inferLLM(self, data: List[VariantType]) -> model_outputs:
     def dataTransferLLM(self, model_outputs) -> List[BMTLLMResult]:
-    
+
     # LLM MMLU tasks: first token generation for TTFT measurement
     # - inferFirstToken: generate only the first token (AI-BMT will measure the time internally)
     # - Returns None (we only measure TTFT, don't care about the actual first token output)

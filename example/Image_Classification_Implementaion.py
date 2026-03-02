@@ -29,6 +29,9 @@ class Classification_Implementation(bmt.AI_BMT_Interface):
     def getInterfaceType(self):
         return bmt.InterfaceType.ImageClassification
 
+    def getPowerDeviceType(self):
+        return bmt.PowerDeviceType.None_ #None_, NvidiaGPU, JetsonSoC, AppleSoC
+
     def initialize(self, model_path: str):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model not found: {model_path}")
