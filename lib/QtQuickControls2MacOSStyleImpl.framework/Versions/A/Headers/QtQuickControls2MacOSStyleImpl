@@ -1,0 +1,5 @@
+#ifndef QT_QTQUICKCONTROLS2MACOSSTYLEIMPL_MODULE_H
+#define QT_QTQUICKCONTROLS2MACOSSTYLEIMPL_MODULE_H
+#include <QtQuickControls2MacOSStyleImpl/QtQuickControls2MacOSStyleImplDepends>
+#include "qtquickcontrols2macosstyleimplversion.h"
+#endif

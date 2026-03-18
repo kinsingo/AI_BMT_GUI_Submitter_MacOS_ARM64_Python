@@ -1,0 +1,5 @@
+QMAKE_PRL_TARGET = QtDesignerComponents
+QMAKE_PRL_CONFIG = shared lib_bundle
+QMAKE_PRL_VERSION = 6.9.3
+QMAKE_PRL_LIBS = -F$$[QT_INSTALL_LIBS] -framework QtDesigner -framework QtOpenGLWidgets -framework QtOpenGL -framework QtWidgets -framework QtGui -framework AppKit -framework OpenGL -framework ImageIO -framework Metal -framework QtXml -framework QtCore -framework IOKit -framework DiskArbitration -framework UniformTypeIdentifiers
+QMAKE_PRL_LIBS_FOR_CMAKE = -F$$[QT_INSTALL_LIBS];-framework;QtDesigner;-framework;QtOpenGLWidgets;-framework;QtOpenGL;-framework;QtWidgets;-framework;QtGui;-framework AppKit;-framework OpenGL;-framework ImageIO;-framework Metal;-framework;QtXml;-framework;QtCore;-framework IOKit;-framework DiskArbitration;-framework UniformTypeIdentifiers

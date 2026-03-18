@@ -1,4 +1,4 @@
-> **Last Updated:** 2026-03-03 (Version 2.3)
+> **Last Updated:** 2026-03-19 (Version 2.4)
 
 ---
 
