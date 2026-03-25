@@ -60,15 +60,16 @@ class ObjectDetection_Implementation(bmt.AI_BMT_Interface):
         Expected: A list of BMTResult objects, each containing one of the following:
         - 'classProbabilities': 1D float list or NumPy array (shape = [1000])
         - 'objectDetectionResult': 1D float list or NumPy array, shape depends on YOLO model:
-            - YOLOv5:        [25200 × 85]
+            - YOLOv5, YOLOv7: [25200 × 85]
+            - YOLOv6: [8400 x 85]
             - YOLOv5u/8/9/11/12: [8400 × 84]
-            - YOLOv10:       [300 × 6]
+            - YOLOv10: [300 × 6]
         - 'segmentationResult': 1D float list or NumPy array (shape = [21 × 520 × 520])
         """
         output_tensors = []
         for _, preprocessed_data in enumerate(preprocessed_data_list):
             outputs = self.session.run([self.output_name], {self.input_name: preprocessed_data})
-            output_tensors.append(outputs[0]) # shape : (1, 25200, 85) for YOLOv5, (1, 84, 8400) for Yolov5u, Yolov8, Yolov9, Yolo11, Yolo12, (1, 300, 6) for Yolov10
+            output_tensors.append(outputs[0]) # shape : (1, 25200, 85) for Yolov5,YoloV7, (1, 8400, 85) for Yolov6, (1, 84, 8400) for Yolov5u, Yolov8, Yolov9, Yolo11, Yolo12, (1, 300, 6) for Yolov10
         return output_tensors
     
     def dataTransferVision(self, output_tensors):
