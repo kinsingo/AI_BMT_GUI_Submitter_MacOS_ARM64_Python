@@ -128,3 +128,10 @@ using following commands in `AI_BMT_GUI_Submitter_MacOS_ARM64_Python/` directory
 ```bash
 python main.py
 ```
+
+### 🔗 Additional Support: Remote GUI Guide
+
+   **Notice**: This application is **designed to operate within a GUI environment**. If you are utilizing a **remote server**, setting up **X11 Forwarding** is necessary to access the interface properly.
+
+   For step-by-step instructions, please refer to the link :
+   [**How to Use AIBMT GUI via SSH (Guide)**](https://github.com/kinsingo/SNU_BMT_DOCX/blob/main/X11_GUI_Forwarding_Guide.md)
